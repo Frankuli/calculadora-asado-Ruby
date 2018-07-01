@@ -1,0 +1,41 @@
+      
+      
+%section.banner-area.relative
+  .container
+    .row.fullscreen.align-items-center.justify-content-center
+      .section-top-border
+        %input.form-control{:name => "title", :placeholder => "Nombre evento", :type => "text", :value => ""}/
+        %br/
+        %input.form-control{:name => "brief", :placeholder => "Fecha", :type => "date", :value => ""}/
+        %br/
+        %input.form-control{:name => "body", :placeholder => "Lugar", :type => "textarea", :value => ""}/
+        %br/
+        .progress-table-wrap
+          .progress-table
+            .table-head
+              .serial #
+              .country Integrante
+              .visit Producto
+              .visit Gasto
+            %form#form{:align => "center", :method => "post", :name => "form"}
+              #campos
+                .table-row
+                  .serial
+                    %a{:href => ""}
+                      %span.glyphicon.glyphicon-remove
+                  .country
+                    %input{:name => "integrante", :type => "text"}/
+                  .visit
+                    %input{:name => "producto", :type => "text"}/
+                  .visit
+                    %input{:name => "gasto", :type => "text"}/
+              %a.primary-btn.white-bg.d-inline-flex.align-items-center.mt-20{:href => "#", :onclick => "AgregarCampos();"} Agregar integrante
+
+  %script{:src => "js/main.js"}
+  :javascript
+    var nextinput = 0;
+    function AgregarCampos(){
+    nextinput++;
+    campo = '<div class="table-row"><div class="serial"><a href=""><span class="glyphicon glyphicon-remove"></a></div><div class="country"><input type="text" name="integrante"></div><div class="visit"><input type="text" name="producto"></div><div class="visit"><input type="text" name="gasto"></div></div>';
+    $("#campos").append(campo);
+    }

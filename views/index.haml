@@ -1,4 +1,18 @@
-%p
-	hola soy el index...
-%a{:href => '/evento_new'}
-	crear evento
+
+%section.banner-area.relative
+.container
+    .row.fullscreen.align-items-center.justify-content-center
+    .banner-left.col-lg-6
+        %img.d-flex.mx-auto.img-fluid{:alt => "", :src => "img/header-img.png"}/
+    .col-lg-6
+        .story-content
+        %h6.text-uppercase CALCULADORA DE ASADOS
+        %h1
+            Hagamos un
+            %span.sp-1 Asado
+            %br/
+            Calculemos
+            %span.sp-2 gastos
+        %a.genric-btn.primary.circle.arrow{:href => "#"}
+            Nuevo Asadazo
+            %span.lnr.lnr-arrow-right
