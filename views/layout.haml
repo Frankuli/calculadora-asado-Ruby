@@ -15,7 +15,7 @@
     / meta character set
     %meta{:charset => "UTF-8"}/
     / Site Title
-    %title CellOn
+    %title Calculardora de Asado
     %link{:href => "https://fonts.googleapis.com/css?family=Poppins:100,300,500", :rel => "stylesheet"}/
     /
       CSS
@@ -27,6 +27,8 @@
     %link{:href => "css/magnific-popup.css", :rel => "stylesheet"}/
     %link{:href => "css/bootstrap.css", :rel => "stylesheet"}/
     %link{:href => "css/main.css", :rel => "stylesheet"}/
+    %link{:href => "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css", :rel => "stylesheet"}/
+
   %body
     .oz-body-wrap
       / Start Header Area
@@ -35,23 +37,22 @@
           .header-wrap
             .header-top.d-flex.justify-content-between.align-items-center
               .logo
-                %a{:href => "index.html"}
-                  %img{:alt => "", :src => "img/logo.png"}/
+                %a{:href => ""}
+                  %img{:alt => "index", :src => "img/logo.png"}/
               .main-menubar.d-flex.align-items-center
                 %nav.hide
-                  %a{:href => "index.html"} Home
-                  %a{:href => "generic.html"} Producto
-                  %a{:href => "elements.html"} Personas
-                  %a{:href => "elements.html"} Evento
+                  %a{:href => "index"} Home
+                  %a{:href => "productos"} Producto
+                  %a{:href => "integrantes"} Personas
+                  %a{:href => "evento"} Evento
                 .menu-bar
                   %span.lnr.lnr-menu
-      
       =yield
       
       %footer.section-gap
         .container
           .footer-bottom.d-flex.justify-content-between.align-items-center.flex-wrap
-            
+            / Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0.
             %p.footer-text.m-0
               Trabajo práctico de Programación 3 ©
               :javascript

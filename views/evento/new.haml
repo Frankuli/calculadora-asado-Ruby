@@ -1,6 +1,9 @@
-%p  
-    soy un nuevo evento
-%a{:href => '/persona/new'}
-    agregar persona
-%br
+%form{action: '/evento/create', method: 'post'}
+    %p Nombre
+    %input{:type => "text", :name => 'nombre'}
+    %p Fecha
+    %input{:type => "date", :name => "fecha"}
+    %br
+    %br
+    %input{:type => "submit"}
 

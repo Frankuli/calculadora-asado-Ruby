@@ -1,26 +1,27 @@
-
-/ End Header Area
 %section.banner-area.relative
   .container
     .row.fullscreen.align-items-center.justify-content-center
       .section-top-border
         %h3.mb-30 Listados de Eventos
-        .progress-table-wrap
-          .progress-table
-            .table-head
-              .serial #
-              .country Evento
-              .visit
-              .percentage
-            .table-row
-              .serial 01
-              .country Lechuga
-              .country
-                %a{:href => "#elimina"} Eliminar
-              .country
-                %a{:align => "center", :href => "#editar"} Editar
-              .country
-                %a{:href => "#editar"} Ver
+        %table.table
+          %thead
+            %tr
+              %th.text-center #
+              %th.text-center Evento
+              %th.text-center Fecha
+              %th.text-center Acciones
+            - @eventos.each do |evento|
+              %tr
+                %td 
+                  = evento.id
+                %td 
+                  = evento.nombre
+                %td
+                  = evento.fecha
+                %td
+                  %a{:href => "/evento/detalle/#{evento.id}"} Ver detalles
+                  %a{:href => "/evento/delete/#{evento.id}"} Eliminar
+                  %a{:href => "/evento/persona/update/#{evento.id}"} Actualizar
 / Start Conatct- Area
 %section.contact-area.pt-100.pb-100.relative
   .overlay.overlay-bg
@@ -32,17 +33,16 @@
           %span Nuevos evento
         %p.text-white
           Todos los asados que se hicieron.
-    %form#myForm.contact-form{:action => "mail.php", :method => "post"}
+    %form.contact-form{action: '/evento/create', method: 'post'}
       .row.justify-content-center
         .col-lg-5
-          %input.common-input.mt-20{:name => "fname", :onblur => "this.placeholder = 'Enter your name'", :onfocus => "this.placeholder = ''", :placeholder => "Ingrese nombre del evento", :required => "", :type => "text"}/
-          %input.common-input.mt-20{:name => "fname", :onblur => "this.placeholder = 'Enter your name'", :onfocus => "this.placeholder = ''", :placeholder => "Ingrese lugar", :required => "", :type => "text"}/
-          %input.common-input.mt-20{:name => "fname", :onblur => "this.placeholder = 'Enter your name'", :onfocus => "this.placeholder = ''", :placeholder => "Ingrese fecha", :required => "", :type => "datetime"}/
+          %input.common-input.mt-20{:name => "nombre", :onblur => "this.placeholder = 'Enter your name'", :onfocus => "this.placeholder = ''", :placeholder => "Ingrese nombre del evento", :required => "", :type => "text"}/
+          /%input.common-input.mt-20{:name => "", :onblur => "this.placeholder = 'Enter your name'", :onfocus => "this.placeholder = ''", :placeholder => "Ingrese lugar", :required => "", :type => "text"}/
+          %input.common-input.mt-20{:name => "fecha", :onblur => "this.placeholder = 'Enter your name'", :onfocus => "this.placeholder = ''", :placeholder => "Ingrese fecha", :required => "", :type => "date"}/
         .col-lg-10.d-flex.justify-content-end
-          %button.primary-btn.white-bg.d-inline-flex.align-items-center.mt-20
-            %span.mr-10 Agregar
-            %span.lnr.lnr-arrow-right
-          %br/
         .alert-msg
+        %button.primary-btn.white-bg.d-inline-flex.align-items-center.mt-20{:type => 'submit'}
+          %span.mr-10 Siguiente
+          %span.lnr.lnr-arrow-right
+        %br/
 / End Conatct- Area
- 

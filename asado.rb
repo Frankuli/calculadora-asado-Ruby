@@ -50,8 +50,25 @@ Gasto.auto_upgrade!
 
 DataMapper.finalize
 
-get '/' do
+get '/index' do
   haml :index
+end
+
+get '/productos' do
+  haml :productos
+end
+
+get '/evento' do
+  @eventos = Evento.all
+  haml :evento
+end
+
+get '/integrantes' do
+  haml :integrantes
+end
+
+get '/calculo' do
+  haml :calculo
 end
 
 #create
@@ -62,9 +79,10 @@ end
 post '/evento/create' do
   evento = Evento.new
   evento.fecha = params[:fecha]
-  evento.nombre = params [:nombre]
+  evento.nombre = params[:nombre]
   evento.save
-  redirect
+  p evento
+  redirect "/calculo"
 end
 
 get '/persona/new' do
@@ -149,7 +167,7 @@ end
 
 get '/evento/delete/:id_evento' do
   Evento.get(params[:id_evento]).destroy
-  redirect "/"
+  redirect "/evento"
 end
 
 get '/persona/delete/:id_persona' do

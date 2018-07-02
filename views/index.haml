@@ -1,18 +1,31 @@
-
+/ Start Banner Area
 %section.banner-area.relative
-.container
+  .container
     .row.fullscreen.align-items-center.justify-content-center
-    .banner-left.col-lg-6
+      .banner-left.col-lg-6
         %img.d-flex.mx-auto.img-fluid{:alt => "", :src => "img/header-img.png"}/
-    .col-lg-6
+      .col-lg-6
         .story-content
-        %h6.text-uppercase CALCULADORA DE ASADOS
-        %h1
+          %h6.text-uppercase CALCULADORA DE ASADOS
+          %h1
             Hagamos un
             %span.sp-1 Asado
             %br/
             Calculemos
             %span.sp-2 gastos
-        %a.genric-btn.primary.circle.arrow{:href => "#"}
-            Nuevo Asadazo
-            %span.lnr.lnr-arrow-right
+          %a.genric-btn.primary.circle.arrow{:href =>'/evento'}
+            Nuevo Azadazo
+          
+          /%p
+            - @eventos.each do |evento|
+              %h4
+                = evento.nombre
+                = evento.fecha
+              %a{:href => "/detalle/#{evento.id}"}
+                Ver detalles
+              %a{:href => "/delete/#{evento.id}"}
+                Eliminar
+              %a{:href => "/persona/update/#{evento.id}"}
+                Actualizar
+          %span.lnr.lnr-arrow-right
+/ End Banner Area
