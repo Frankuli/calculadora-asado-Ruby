@@ -13,19 +13,7 @@
             %br/
             Calculemos
             %span.sp-2 gastos
-          %a.genric-btn.primary.circle.arrow{:href =>'/evento'}
-            Nuevo Azadazo
-          
-          /%p
-            - @eventos.each do |evento|
-              %h4
-                = evento.nombre
-                = evento.fecha
-              %a{:href => "/detalle/#{evento.id}"}
-                Ver detalles
-              %a{:href => "/delete/#{evento.id}"}
-                Eliminar
-              %a{:href => "/persona/update/#{evento.id}"}
-                Actualizar
-          %span.lnr.lnr-arrow-right
+          %a.genric-btn.primary.circle.arrow{:href =>'/eventos'}
+            Nuevo Asadazo
+            %span.lnr.lnr-arrow-right
 / End Banner Area

@@ -1,48 +1,48 @@
 %section.banner-area.relative
-  .container
-    .row.fullscreen.align-items-center.justify-content-center
-      .section-top-border
-        %h3.mb-30 Listados de Eventos
-        %table.table
-          %thead
-            %tr
-              %th.text-center #
-              %th.text-center Evento
-              %th.text-center Fecha
-              %th.text-center Acciones
-            - @eventos.each do |evento|
-              %tr
-                %td 
-                  = evento.id
-                %td 
-                  = evento.nombre
-                %td
-                  = evento.fecha
-                %td
-                  %a{:href => "/evento/detalle/#{evento.id}"} Ver detalles
-                  %a{:href => "/evento/delete/#{evento.id}"} Eliminar
-                  %a{:href => "/evento/persona/update/#{evento.id}"} Actualizar
+	.container
+		.row.fullscreen.align-items-center.justify-content-center
+			.section-top-border
+				%h3.mb-30 Listados de Eventos
+				%table.table
+					%thead
+						%tr
+							%th.text-center #
+							%th.text-center Evento
+							%th.text-center Fecha
+							%th.text-center Acciones
+						- n = 0
+						- @eventos.each do |evento|
+							%tr
+								%td 
+									= n+=1
+								%td 
+									= evento.nombre
+								%td
+									= evento.fecha
+								%td
+									%a{:href => "/evento/detalle/#{evento.id}"} Ver detalles
+									%a{:href => "/evento/delete/#{evento.id}"} Eliminar
+									%a{:href => "/evento/update/#{evento.id}"} Actualizar
 / Start Conatct- Area
 %section.contact-area.pt-100.pb-100.relative
-  .overlay.overlay-bg
-  .container
-    .row.justify-content-center.text-center
-      .single-contact.col-lg-6.col-md-8
-        %h2.text-white
-          Agregar
-          %span Nuevos evento
-        %p.text-white
-          Todos los asados que se hicieron.
-    %form.contact-form{action: '/evento/create', method: 'post'}
-      .row.justify-content-center
-        .col-lg-5
-          %input.common-input.mt-20{:name => "nombre", :onblur => "this.placeholder = 'Enter your name'", :onfocus => "this.placeholder = ''", :placeholder => "Ingrese nombre del evento", :required => "", :type => "text"}/
-          /%input.common-input.mt-20{:name => "", :onblur => "this.placeholder = 'Enter your name'", :onfocus => "this.placeholder = ''", :placeholder => "Ingrese lugar", :required => "", :type => "text"}/
-          %input.common-input.mt-20{:name => "fecha", :onblur => "this.placeholder = 'Enter your name'", :onfocus => "this.placeholder = ''", :placeholder => "Ingrese fecha", :required => "", :type => "date"}/
-        .col-lg-10.d-flex.justify-content-end
-        .alert-msg
-        %button.primary-btn.white-bg.d-inline-flex.align-items-center.mt-20{:type => 'submit'}
-          %span.mr-10 Siguiente
-          %span.lnr.lnr-arrow-right
-        %br/
+	.overlay.overlay-bg
+	.container
+		.row.justify-content-center.text-center
+			.single-contact.col-lg-6.col-md-8
+				%h2.text-white
+					Agregar
+					%span Nuevos evento
+				%p.text-white
+					Todos los asados que se hicieron.
+		%form.contact-form{action: '/evento/create', method: 'post'}
+			.row.justify-content-center
+				.col-lg-5
+					%input.common-input.mt-20{:name => "nombre", :onblur => "this.placeholder = 'Enter your name'", :onfocus => "this.placeholder = ''", :placeholder => "Ingrese nombre del evento", :required => "", :type => "text"}/
+					%input.common-input.mt-20{:name => "fecha", :onblur => "this.placeholder = 'Enter your name'", :onfocus => "this.placeholder = ''", :placeholder => "Ingrese fecha", :required => "", :type => "date"}/
+				.col-lg-10.d-flex.justify-content-end
+				.alert-msg
+				%button.primary-btn.white-bg.d-inline-flex.align-items-center.mt-20{:type => 'submit'}
+					%span.mr-10 Siguiente
+					%span.lnr.lnr-arrow-right
+				%br/
 / End Conatct- Area

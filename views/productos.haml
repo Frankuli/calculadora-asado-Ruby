@@ -3,20 +3,21 @@
     .row.fullscreen.align-items-center.justify-content-center
       .section-top-border
         %h3.mb-30 Listados de productos
-        .progress-table-wrap
-          .progress-table
-            .table-head
-              .serial #
-              .country Producto
-              .visit
-              .percentage
-            .table-row
-              .serial 01
-              .country Lechuga
-              .visit
-                %a{:href => "#elimina"} Eliminar
-              .percentage
-                %a{:href => "#editar"} Editar
+        %table.table
+          %thead
+            %tr
+              %th.text-center #
+              %th.text-center Producto
+            - n = 0
+            - @productos.each do |producto|
+              %tr
+                %td 
+                  = n+=1
+                %td 
+                  = producto.nombre
+                %td
+                  %a{:href => "/producto/delete/#{producto.id}"} Eliminar
+                  %a{:href => "/producto/update/#{producto.id}"} Actualizar
 / Start Conatct- Area
 %section.contact-area.pt-100.pb-100.relative
   .overlay.overlay-bg
@@ -28,14 +29,14 @@
           %span Nuevos productos
         %p.text-white
           Productos involucrados en el asadazo.
-    %form#myForm.contact-form{:action => "mail.php", :method => "post"}
+    %form.contact-form{:action => '/producto/create', :method => 'POST'}
       .row.justify-content-center
         .col-lg-5
-          %input.common-input.mt-20{:name => "fname", :onblur => "this.placeholder = 'Enter your name'", :onfocus => "this.placeholder = ''", :placeholder => "Ingrese nombre de producto", :required => "", :type => "text"}/
+          %input.common-input.mt-20{:name => "nombre", :onblur => "this.placeholder = 'Enter your name'", :onfocus => "this.placeholder = ''", :placeholder => "Ingrese nombre de producto", :required => "", :type => "text"}/
         .col-lg-10.d-flex.justify-content-end
-          %button.primary-btn.white-bg.d-inline-flex.align-items-center.mt-20
-            %span.mr-10 Agregar
-            %span.lnr.lnr-arrow-right
-          %br/
+        %button.primary-btn.white-bg.d-inline-flex.align-items-center.mt-20{:type => 'submit'}
+          %span.mr-10 Siguiente
+          %span.lnr.lnr-arrow-right
+        %br/
         .alert-msg
 / End Conatct- Area

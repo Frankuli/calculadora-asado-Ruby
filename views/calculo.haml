@@ -1,61 +1,36 @@
-
-%link{:href => "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css", :rel => "stylesheet"}/
-%script{:src => "https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"}
-%script{:src => "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"}
-
 %section.banner-area.relative
-  .container
-    .row.fullscreen.align-items-center.justify-content-center
-      .section-top-border
-        %input.form-control{:name => "title", :placeholder => "Nombre evento", :type => "text", :value => ""}/
-        %br/
-        %input.form-control{:name => "brief", :placeholder => "Fecha", :type => "date", :value => ""}/
-        %br/
-        %input.form-control{:name => "body", :placeholder => "Lugar", :type => "textarea", :value => ""}/
-        %br/
-        .progress-table-wrap
-          .progress-table
-            .table-head
-              .serial #
-              .country Integrante
-              .visit Producto
-              .visit Gasto
-            %form#form{:align => "center", :method => "post", :name => "form"}
-              #campos
-                .table-row
-                  .serial
-                    %a{:href => ""}
-                      %span.glyphicon.glyphicon-remove
-                  .country
-                    %input{:name => "integrante", :type => "text"}/
-                  .visit
-                    %input{:name => "producto", :type => "text"}/
-                  .visit
-                    %input{:name => "gasto", :type => "text"}/
-        %a.primary-btn.white-bg.d-inline-flex.align-items-center.mt-20{:href => "#", :onclick => "AgregarCampos();"} Agregar integrante
-        %button.primary-btn.white-bg.d-inline-flex.align-items-center.mt-20{"data-target" => "#myModal", "data-toggle" => "modal", :type => "button"}  Finalizar
-        
-        #myModal.modal.fade{:role => "dialog"}
-          .modal-dialog
-            / Modal content
-            .modal-content
-              .modal-header
-                %h4.modal-title Detalle de gastos
-                
-              .modal-body
-                %p Aca quienes pagan.
-              .modal-footer
-                %button.primary-btn.white-bg.d-inline-flex.align-items-center.mt-20{"data-dismiss" => "modal", :type => "button"} Close
-
-                        
-
-
-
-:javascript
-  var nextinput = 0;
-  function AgregarCampos(){
-  nextinput++;
-  campo = '<div class="table-row"><div class="serial"><a href=""><span class="glyphicon glyphicon-remove"></a></div><div class="country"><input type="text" name="integrante"></div><div class="visit"><input type="text" name="producto"></div><div class="visit"><input type="text" name="gasto"></div></div>';
-  $("#campos").append(campo);
-  }
-              
+		.container
+				.row.fullscreen.align-items-center.justify-content-center
+						.section-top-border
+								%h1.text-center.text-uppercase
+										= @el_evento.nombre
+								%h5.text-center
+										= @el_evento.fecha.strftime("%d-%m-%Y")
+								%br
+								%br
+								%h3.mb-30 Listados de Personas
+								%table.table
+										%thead
+												%tr
+														%th.text-center 
+														%th.text-center Integrante
+														%th.text-center Acciones
+												- @integrantes.each do |integrante|
+														%tr
+																%td.text-center
+																		%a{:href => "/persona/delete"}
+																				%span.glyphicon.glyphicon-remove
+																%td.text-center
+																		=integrante.nombre
+																%td.text-center
+																		%a{:href => "/persona/delete/#{integrante.id}"} Eliminar
+																		%a{:href => "#"} Actualizar
+																
+								%form{:action => "/persona/create/#{@el_evento.id}", :method => 'POST' }
+										%input.common-input.mt-20.text-success{:name => "nombre", :placeholder => "Nombre del integrante", :required => "", :type => "text"}/
+										%input{:name => "#{@el_evento.id}", :type => "hidden"}
+										%br/
+										%button.primary-btn.white-bg.d-inline-flex.align-items-right{:type => 'submit'}
+												%span.mr-10 Agregar Persona
+										%br/
+														
