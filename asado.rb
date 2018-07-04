@@ -165,7 +165,7 @@ end
 
 get '/evento/delete/:id_evento' do
   Evento.get(params[:id_evento]).destroy
-  redirect "/evento"
+  redirect "/eventos"
 end
 
 get '/persona/delete/:id_persona' do
