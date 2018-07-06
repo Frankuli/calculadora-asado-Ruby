@@ -1,28 +1,62 @@
-%section.banner-area.relative
-	.container
-		.row.fullscreen.align-items-center.justify-content-center
-			.section-top-border
-				%h3.mb-30 Listados de Eventos
-				%table.table
-					%thead
-						%tr
-							%th.text-center #
-							%th.text-center Evento
-							%th.text-center Fecha
-							%th.text-center Acciones
-						- n = 0
-						- @eventos.each do |evento|
+-if (@eventos!=[])
+	%section.banner-area.relative
+		.container
+			.row.fullscreen.align-items-center.justify-content-center
+				.section-top-border
+					%h3.mb-30 Listados de Eventos
+					%table.table
+						%thead
 							%tr
-								%td 
-									= n+=1
-								%td 
-									= evento.nombre
-								%td
-									= evento.fecha
-								%td
-									%a{:href => "/evento/detalle/#{evento.id}"} Ver detalles
-									%a{:href => "/evento/delete/#{evento.id}"} Eliminar
-									%a{:href => "/evento/update/#{evento.id}"} Actualizar
+								%th.text-center 
+								%th.text-center Nombre
+								%th.text-center Detalle
+								%th.text-center Editar
+							- @eventos.each do |evento|
+								%tr
+									%td 
+										%a{:href => "#"}
+											%span.glyphicon.glyphicon-remove 
+									%td.text-center 
+										= evento.nombre
+									%td.text-center
+										%a{:href => "#", "data-target" => "##{evento.id}", "data-toggle" => "modal"} 
+											%span.glyphicon.glyphicon-list-alt
+										/ Modal
+										%div.modal.fade{:id => "#{evento.id}", "aria-hidden" => "true", "aria-labelledby" => "exampleModalLabel", :role => "dialog", :tabindex => "-1"}
+											.modal-dialog{:role => "document"}
+												.modal-content
+													.modal-header
+														%h5#exampleModalLabel.modal-title.text-center Detalles
+													.modal-body
+														%p Nombre del evento:
+														%h4 
+															%dt
+																=evento.nombre
+														%span Fecha del evento:
+														%h4
+															%dt
+																=evento.fecha.strftime("%d-%m-%Y")
+													.modal-footer
+														%button.primary-btn.white-bg.d-inline-flex.align-items-center.mt-20{"data-dismiss" => "modal", :type => "button"}
+															Close
+										%td.text-center 									
+											%a{:href => "#", "data-target" => "#a#{evento.id}", "data-toggle" => "modal"}
+												%span.glyphicon.glyphicon-edit 
+											/ Modal
+											%div.modal.fade{:id => "a#{evento.id}", "aria-hidden" => "true", "aria-labelledby" => "exampleModalLabel", :role => "dialog", :tabindex => "-1"}
+												.modal-dialog{:role => "document"}
+													.modal-content
+														.modal-header
+															%h5#exampleModalLabel.modal-title.text-center Editar Datos
+														.modal-body
+															%form{:action => "/evento/update/#{evento.id}", :method => 'post'}
+																%input.rounded-0.border.border-secondary{:value => "#{evento.nombre}", :name => "nombre", :type => "text"}
+																%input.rounded-0.border.border-secondary{:value => "#{evento.fecha}", :name => "fecha", :type => "date"}
+																%button.primary-btn.white-bg.d-inline-flex.align-items-center.mt-20{:type => 'submit'}
+																	Cambiar
+														.modal-footer
+															%button.primary-btn.white-bg.d-inline-flex.align-items-center.mt-20{"data-dismiss" => "modal", :type => "button"}
+																Close
 / Start Conatct- Area
 %section.contact-area.pt-100.pb-100.relative
 	.overlay.overlay-bg
@@ -42,7 +76,7 @@
 				.col-lg-10.d-flex.justify-content-end
 				.alert-msg
 				%button.primary-btn.white-bg.d-inline-flex.align-items-center.mt-20{:type => 'submit'}
-					%span.mr-10 Siguiente
+					%span.mr-10 Agregar
 					%span.lnr.lnr-arrow-right
-				%br/
-/ End Conatct- Area
+		%a.primary-btn.white-bg.d-inline-flex.align-items-center.mt-20{:type => 'button',:href => '/calculo'}
+			%span.mr-10 Ir a Calculo

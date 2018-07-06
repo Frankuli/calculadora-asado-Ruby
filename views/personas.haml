@@ -1,40 +1,58 @@
-%section.banner-area.relative
-  .container
-    .row.fullscreen.align-items-center.justify-content-center
-      .section-top-border
-        %h3.mb-30 Listados de integrantes
-        .progress-table-wrap
-          .progress-table
-            .table-head
-              .serial #
-              .country Nombre
-              .visit
-              .percentage
-            .table-row
-              .serial 01
-              .country Juanka
-              .visit
-                %a{:href => "#elimina"} Eliminar
-              .percentage
-                %a{:href => "#editar"} Editar
+-if (@personas!=[])
+	%section.banner-area.relative
+		.container
+			.row.fullscreen.align-items-center.justify-content-center
+				.section-top-border
+					%h3.mb-30 Listado de Personas
+					%table.table
+						%thead
+							%tr
+								%th.text-center 
+								%th.text-center Nombre
+								%th.text-center Acciones
+						-@personas.each do |persona|
+							%tr
+								%td.text-center
+									%a{:href => "#"}
+										%span.glyphicon.glyphicon-remove
+								%td.text-center
+									=persona.nombre
+								%td.text-center
+									%a{:href => "#", "data-target" => "##{persona.id}", "data-toggle" => "modal"} Actualizar
+									/ Modal
+									%div.modal.fade{:id => "#{persona.id}", "aria-hidden" => "true", "aria-labelledby" => "exampleModalLabel", :role => "dialog", :tabindex => "-1"}
+										.modal-dialog{:role => "document"}
+											.modal-content
+												.modal-header
+													%h5#exampleModalLabel.modal-title.text-center Actualizar Datos
+												.modal-body
+													%form{:action => "/persona/update/#{persona.id}", :method => 'post'}
+														%input{:value => "#{persona.nombre}", :name => "nombre", :type => "text"}
+														%button.primary-btn.white-bg.d-inline-flex.align-items-center.mt-20{:type => 'submit'}
+															Cambiar
+												.modal-footer
+													%button.primary-btn.white-bg.d-inline-flex.align-items-center.mt-20{"data-dismiss" => "modal", :type => "button"}
+														Close
 / Start Conatct- Area
 %section.contact-area.pt-100.pb-100.relative
-  .overlay.overlay-bg
-  .container
-    .row.justify-content-center.text-center
-      .single-contact.col-lg-6.col-md-8
-        %h2.text-white
-          Agregar
-          %span Nuevos Integrante
-        %p.text-white
-          Productos involucrados en el asadazo.
-    %form#myForm.contact-form{:action => "mail.php", :method => "post"}
-      .row.justify-content-center
-        .col-lg-5
-          %input.common-input.mt-20{:name => "fname", :onblur => "this.placeholder = 'Enter your name'", :onfocus => "this.placeholder = ''", :placeholder => "Ingrese nombre de producto", :required => "", :type => "text"}/
-        .col-lg-10.d-flex.justify-content-end
-          %button.primary-btn.white-bg.d-inline-flex.align-items-center.mt-20
-            %span.mr-10 Agregar
-            %span.lnr.lnr-arrow-right
-          %br/
-        .alert-msg
+	.overlay.overlay-bg
+	.container
+		.row.justify-content-center.text-center
+			.single-contact.col-lg-6.col-md-8
+				%h2.text-white
+					Agregar
+					%span Nuevas Personas
+				%p.text-white
+					Personas involucrados en el asadazo.
+		%form.contact-form{:action => '/persona/create', :method => "post"}
+			.row.justify-content-center
+				.col-lg-5
+					%input.common-input.mt-20{:name => "nombre", :onblur => "this.placeholder = 'Nombre de la Persona'", :onfocus => "this.placeholder = ''", :placeholder => "Nombre de la Persona", :required => "", :type => "text"}/
+				.col-lg-10.d-flex.justify-content-end
+					%button.primary-btn.white-bg.d-inline-flex.align-items-center.mt-20
+						%span.mr-10 Agregar
+						%span.lnr.lnr-arrow-right
+					%br/
+				.alert-msg
+		%a.primary-btn.white-bg.d-inline-flex.align-items-center.mt-20{:type => 'button',:href => '/calculo'}
+			%span.mr-10 Ir a Calculo

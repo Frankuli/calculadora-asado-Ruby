@@ -11,8 +11,8 @@ class Evento
   property :nombre, String
   property :total, Float #% p/persona
 
-  has n, :personas 
-  has n, :gastos
+  has n, :personas, :required => false
+  has n, :gastos, :required => false
 end
 
 class Persona
@@ -20,8 +20,7 @@ class Persona
   property :id, Serial
   property :nombre, String
   
-  belongs_to :evento
-  has n, :gastos
+  belongs_to :evento, :required => false
 end
 
 class Producto 
@@ -29,7 +28,7 @@ class Producto
   property :id, Serial
   property :nombre, String
 
-  belongs_to :gasto
+  has n, :gasto
 end
 
 class Gasto
@@ -38,11 +37,11 @@ class Gasto
   property :monto, Integer #total de lo gastado
   property :observacion, String
 
-  has 1, :producto
-  belongs_to :persona
+  belongs_to :producto
   belongs_to :evento
 end
 
+#DataMapper.auto_migrate!
 Evento.auto_upgrade!
 Persona.auto_upgrade!
 Producto.auto_upgrade!
@@ -65,14 +64,15 @@ get '/eventos' do
 end
 
 get '/personas' do
+  @personas = Persona.all
   haml :personas
 end
 
 
-get '/calculo/:id_evento' do
-  @el_evento = Evento.get(params[:id_evento])
-  @integrantes = Persona.all('evento.id' => params[:id_evento])
-  p @integrantes
+get '/calculo' do
+  @los_eventos = Evento.all
+  @las_personas = Persona.all
+  @los_productos = Producto.all
   haml :calculo
 end
 
@@ -84,17 +84,14 @@ post '/evento/create' do
   evento.fecha = params[:fecha]
   evento.nombre = params[:nombre]
   evento.save
-  redirect "/calculo/#{evento.id}"
+  redirect "/eventos"
 end
 
-post '/persona/create/:id_evento' do
-  evento = Evento.get(params[:id_evento])
+post '/persona/create' do
   persona = Persona.new
   persona.nombre = params[:nombre]
-  evento.personas << persona
-  #persona.save
-  evento.save
-  redirect "/calculo/#{evento.id}"
+  persona.save
+  redirect "/personas"
 end
 
 post '/producto/create' do
@@ -126,39 +123,27 @@ end
 
 #update
 
-get '/evento/update/:id_evento' do 
-  @evento_update = Evento.get(params[:id_evento])
-  haml :'evento/update'
-end 
 post '/evento/update/:id_evento' do
   @evento_update = Evento.get(params[:id_evento])
   @evento_update.fecha = params[:fecha]
-  @evento_update.nombre = params [:nombre]
-  @evento_update.total = params [:total]
+  @evento_update.nombre = params[:nombre]
+  @evento_update.total = params[:total]
   @evento_update.save
-  redirect "/"
+  redirect "/eventos"
 end
 
-get '/persona/update/:id_persona' do 
-  @persona_update = Persona.get(params[:id_persona])
-  haml :'persona/update'
-end 
 post '/persona/update/:id_persona' do
   @persona_update = Persona.get(params[:id_persona])
   @persona_update.nombre = params[:nombre]
   @persona_update.save
+  redirect "/personas"
 end
-
-get '/producto/update/:id_producto' do 
-  @producto_update = Producto.get(params[:id_producto])
-  haml :'producto/update'
-end 
 
 post '/producto/update/:id_producto' do
   @producto_update = Producto.get(params[:id_producto])
   @producto_update.nombre = params[:nombre]
   @producto_update.save
-  redirect '/'
+  redirect '/productos'
 end
 
 #delete
@@ -169,10 +154,8 @@ get '/evento/delete/:id_evento' do
 end
 
 get '/persona/delete/:id_persona' do
-  @persona = Persona.get(params[:id_persona])
-  p @persona 
   Persona.get(params[:id_persona]).destroy
-  redirect "/calculo/#{@persona.evento_id}"
+  redirect "/personas"
 end
 
 get '/producto/delete/:id_producto' do

@@ -1,50 +1,40 @@
 %section.banner-area.relative
-		.container
-				.row.fullscreen.align-items-center.justify-content-center
-						.section-top-border
-								%h1.text-center.text-uppercase
-										= @el_evento.nombre
-								%h5.text-center
-										= @el_evento.fecha.strftime("%d-%m-%Y")
-								%br
-								%br
-								%h3.mb-30 Listados de Personas
-								%table.table
-										%thead
-												%tr
-														%th.text-center 
-														%th.text-center Integrante
-														%th.text-center Producto
-														%th.text-center Gasto
-														%th.text-center Acciones
-												- @integrantes.each do |integrante|
-														%tr
-																%td.text-center
-																		%a{:href => "/persona/delete"}
-																				%span.glyphicon.glyphicon-remove
-																%td.text-center
-																		=integrante.nombre
-																%form{:action => "/persona/create/#{@el_evento.id}", :method => 'POST' }
-																		%td.text-center 
-																				%input{:name => "nombre", :placeholder => "Producto", :required => "", :type => "text"}/
-
-																		%td.text-center 
-																				%input{:name => "nombre", :placeholder => "Gasto", :required => "", :type => "number"}/
-																		%td.text-center
-																				%a{:href => "/persona/delete/#{integrante.id}"} Eliminar
-																				%a{:href => "#"} Actualizar
-												%button.primary-btn.white-bg.d-inline-flex.align-items-right{:type => 'submit'}
-														%span.mr-10 Calcular
-												%br/
-								
-								%form{:action => "/persona/create/#{@el_evento.id}", :method => 'POST' }
-										%input.common-input.mt-20.text-success{:name => "nombre", :placeholder => "Nombre del integrante", :required => "", :type => "text"}/
-										%input{:name => "#{@el_evento.id}", :type => "hidden"}
-										%br/
-										%button.primary-btn.white-bg.d-inline-flex.align-items-right{:type => 'submit'}
-												%span.mr-10 Agregar Persona
-										%br/
-				:javascript
-					
-
-														
+	.container
+		.row.section-top-border.justify-content-md-center
+			.col.col-lg-12.text-center
+				%h3.mb-30 Calcular Gastos
+		.row.justify-content-md-center
+			.col.col-lg-4.text-center
+				%h3 Eventos
+				-@los_eventos.each do |evento|
+					%input{:type => "radio", :name => "nombre"}
+						=evento.nombre
+					%input{:type => "hidden", :value => "#{evento.id}"}
+					%br
+				%br
+				%a{:href =>'/eventos'}
+					%span.glyphicon.glyphicon-plus 
+					Nuevo Evento
+			.col.col-lg-4.text-center
+				%h3 Personas
+				-@las_personas.each do |persona|
+					%input{:type => "checkbox", :name => "nombre"}
+						=persona.nombre
+					%input{:type => "hidden", :value => "#{persona.id}"}
+					%br
+				%br
+				%a{:href =>'/personas'}
+					%span.glyphicon.glyphicon-plus 
+					Nuevo Persona
+			.col.col-lg-4.text-center
+				%h3 Productos
+				-@los_productos.each do |producto|
+					%input{:type => "checkbox", :name => "nombre"}
+						=producto.nombre
+					%input{:type => "number", :name => "monto"}
+					%input{:type => "hidden", :value => "#{producto.id}"}
+					%br
+				%br
+				%a{:href =>'/productos'}
+					%span.glyphicon.glyphicon-plus 
+					Nuevo Producto
