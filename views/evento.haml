@@ -14,7 +14,7 @@
 							- @eventos.each do |evento|
 								%tr
 									%td 
-										%a{:href => "#"}
+										%a{:href => "/evento/delete/#{evento.id}"}
 											%span.glyphicon.glyphicon-remove 
 									%td.text-center 
 										= evento.nombre

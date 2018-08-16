@@ -11,8 +11,7 @@ class Evento
   property :nombre, String
   property :total, Float #% p/persona
 
-  has n, :personas, :required => false
-  has n, :gastos, :required => false
+  has n, :personas
 end
 
 class Persona
@@ -20,15 +19,14 @@ class Persona
   property :id, Serial
   property :nombre, String
   
-  belongs_to :evento, :required => false
+  belongs_to :evento
+  has n, :gasto
 end
 
 class Producto 
   include DataMapper::Resource
   property :id, Serial
   property :nombre, String
-
-  has n, :gasto
 end
 
 class Gasto
@@ -37,8 +35,7 @@ class Gasto
   property :monto, Integer #total de lo gastado
   property :observacion, String
 
-  belongs_to :producto
-  belongs_to :evento
+  belongs_to :persona
 end
 
 #DataMapper.auto_migrate!
@@ -48,6 +45,9 @@ Producto.auto_upgrade!
 Gasto.auto_upgrade!
 
 DataMapper.finalize
+
+
+@@evento_activo = nil
 
 get '/' do
   haml :index
@@ -70,9 +70,9 @@ end
 
 
 get '/calculo' do
-  @los_eventos = Evento.all
-  @las_personas = Persona.all
-  @los_productos = Producto.all
+  @los_eventos = # evebto activo
+  @las_personas = # evento_activo.personas
+  @los_productos = # each gasto de cada persona del evento
   haml :calculo
 end
 
@@ -84,6 +84,7 @@ post '/evento/create' do
   evento.fecha = params[:fecha]
   evento.nombre = params[:nombre]
   evento.save
+  @@evento_activo = evento.id
   redirect "/eventos"
 end
 
@@ -91,6 +92,9 @@ post '/persona/create' do
   persona = Persona.new
   persona.nombre = params[:nombre]
   persona.save
+
+  #buscar el evento acrtivo pñor id
+  # agregarle la persona la evento
   redirect "/personas"
 end
 
