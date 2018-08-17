@@ -33,16 +33,7 @@
             .header-top.d-flex.justify-content-between.align-items-center
               .logo
                 %a{:href => "/"}
-                  %img{:alt => "logo", :src => "/img/logo.png"}/
-              .main-menubar.d-flex.align-items-center
-                %nav.hide
-                  %a{:href => "/"} Home
-                  /%a{:href => "/productos"} Producto
-                  %a{:href => "/personas"} Personas
-                  %a{:href => "/eventos"} Evento
-                  %a{:href => "/calculo"} Calculo
-                .menu-bar
-                  %span.lnr.lnr-menu
+                  %img{:alt => "logo", :src => "/img/logo.png"}
       =yield
       
       %footer.section-gap.text-center.text-muted

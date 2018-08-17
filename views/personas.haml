@@ -1,4 +1,4 @@
--if (@personas!=[])
+-if (@evento.personas != [])
 	%section.banner-area.relative
 		.container
 			.row.fullscreen.align-items-center.justify-content-center
@@ -8,13 +8,16 @@
 						%thead
 							%tr
 								%th.text-center 
+								%th.text-center Gasto
 								%th.text-center Nombre
 								%th.text-center Acciones
-						-@personas.each do |persona|
+						-@evento.personas.each do |persona|
 							%tr
 								%td.text-center
 									%a{:href => "#"}
 										%span.glyphicon.glyphicon-remove
+								%td.text-center
+									=persona.gasto
 								%td.text-center
 									=persona.nombre
 								%td.text-center
@@ -44,15 +47,46 @@
 					%span Nuevas Personas
 				%p.text-white
 					Personas involucrados en el asadazo.
-		%form.contact-form{:action => '/persona/create', :method => "post"}
+		%form.contact-form{:action => "/persona/create/#{@evento.id}", :method => "post"}
 			.row.justify-content-center
 				.col-lg-5
 					%input.common-input.mt-20{:name => "nombre", :onblur => "this.placeholder = 'Nombre de la Persona'", :onfocus => "this.placeholder = ''", :placeholder => "Nombre de la Persona", :required => "", :type => "text"}/
+				.col-lg-5
+					%input.common-input.mt-20{:name => "gasto", :onblur => "this.placeholder = 'Gasto'", :onfocus => "this.placeholder = ''", :placeholder => "Gasto", :required => "", :type => "number", :value => "0"}/
 				.col-lg-10.d-flex.justify-content-end
 					%button.primary-btn.white-bg.d-inline-flex.align-items-center.mt-20
 						%span.mr-10 Agregar
 						%span.lnr.lnr-arrow-right
 					%br/
 				.alert-msg
-		%a.primary-btn.white-bg.d-inline-flex.align-items-center.mt-20{:type => 'button',:href => '/calculo'}
-			%span.mr-10 Ir a Calculo
+
+		%a.primary-btn.white-bg.d-inline-flex.align-items-center.mt-20{:href => "#", "data-target" => "#calculo", "data-toggle" => "modal"} Calcular
+		/ Modal
+		%div.modal.fade{:id => "calculo", "aria-hidden" => "true", "aria-labelledby" => "exampleModalLabel", :role => "dialog", :tabindex => "-1"}
+			.modal-dialog{:role => "document"}
+				.modal-content
+					.modal-header
+						%h5#exampleModalLabel.modal-title.text-center.text-secondary A pagar!
+					.modal-body.text-secondary
+						-x = 0
+						-if @evento.personas.length != 0
+							-@evento.personas.each do |persona|
+								-x = x + persona.gasto
+								
+							%p 
+								Total a pagar es: 
+								=individual = x / @evento.personas.length	
+
+							%p 
+								Cada persona debe pagar: 
+								-@evento.personas.each do |persona|
+									%br
+									=persona.nombre
+									%span $
+									=individual - persona.gasto
+									
+						
+							
+					.modal-footer
+						%button.primary-btn.white-bg.d-inline-flex.align-items-center.mt-20{"data-dismiss" => "modal", :type => "button"}
+							Close

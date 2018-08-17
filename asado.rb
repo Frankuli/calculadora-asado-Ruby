@@ -18,9 +18,10 @@ class Persona
   include DataMapper::Resource
   property :id, Serial
   property :nombre, String
+  property :gasto, Integer
   
   belongs_to :evento
-  has n, :gasto
+  has n, :gastos
 end
 
 class Producto 
@@ -47,32 +48,25 @@ Gasto.auto_upgrade!
 DataMapper.finalize
 
 
-@@evento_activo = nil
-
 get '/' do
   haml :index
 end
 
-get '/productos' do
-  @productos = Producto.all
-  haml :productos
-end
 
 get '/eventos' do
   @eventos = Evento.all
   haml :evento
 end
 
-get '/personas' do
-  @personas = Persona.all
+get '/personas/:id_evento' do
+  @evento = Evento.get(params[:id_evento])
   haml :personas
 end
 
 
-get '/calculo' do
-  @los_eventos = # evebto activo
-  @las_personas = # evento_activo.personas
-  @los_productos = # each gasto de cada persona del evento
+get '/calculo/:id_evento' do
+  @evento =  Evento.get(params[:id_evento])
+  
   haml :calculo
 end
 
@@ -80,22 +74,27 @@ end
 #create
 
 post '/evento/create' do
+  #@@evento_activo = nil
   evento = Evento.new
   evento.fecha = params[:fecha]
   evento.nombre = params[:nombre]
   evento.save
-  @@evento_activo = evento.id
-  redirect "/eventos"
+  
+  redirect "/personas/#{evento.id}"
 end
 
-post '/persona/create' do
+post '/persona/create/:evento_id' do
+  evento = Evento.get(params[:evento_id])
   persona = Persona.new
   persona.nombre = params[:nombre]
-  persona.save
+  persona.gasto = params[:gasto]
+  evento.personas << persona
+
+  evento.save
 
   #buscar el evento acrtivo pñor id
   # agregarle la persona la evento
-  redirect "/personas"
+  redirect "/personas/#{evento.id}"
 end
 
 post '/producto/create' do
